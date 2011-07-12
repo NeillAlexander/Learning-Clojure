@@ -49,3 +49,20 @@
 (meta-function 1)
 (meta meta-function)
 
+;clojure is a lisp-1 - uses same name resolution for function and value bindings
+;one downside to this is name shadowing i.e. defining a function or value that
+;hides (shadows) and existing function
+
+;onwards to...
+
+;regular expressions
+(def re #"a regular expression")
+(print-val-and-class re)           ;java.util.regex.Pattern
+
+;re-seq - returns sequence of all matches in a string
+(re-seq #"\w+" "one-two/three")
+
+;avoid re-matcher, re-groups, and re-find
+;they make use of Matcher, which is mutable and can therefore lead to threading issues
+;see clojure.contrib.string for functions to use
+

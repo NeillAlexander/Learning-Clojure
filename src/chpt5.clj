@@ -131,3 +131,40 @@ a-to-j
 
 ;lists
 ;in idiomatic clojure, lists used almost exclusively to represent code forms
+
+;for ordered map use array map (order of insertion)
+(seq (hash-map :a 1, :b 2, :c 2))
+(seq (array-map :a 1, :b 2, :c 3))
+
+;5.7: putting it all together
+;implement a simple function to locate the positional index of an element within a sequence
+
+(defn index [coll]
+  (cond
+    (map? coll) (seq coll)
+    (set? coll) (map vector coll coll)
+    :else (map vector (iterate inc 0) coll)))
+
+(index {:a 1 :b 2 :c 3})
+(index [:a :b :c])
+
+(defn pos [e coll]
+  (for [[i v] (index coll) :when (= e v)] i))
+
+(pos 2 {:a 1 :b 2 :c 3})
+(pos :c [:a :b :c])
+
+(defn pos [pred coll]
+  (for [[i v] (index coll) :when (pred v)] i))
+
+(pos #{2} {:a 1 :b 2 :c 3})
+(pos #{:b :c} [:a :b :c])
+(pos even? [2 3 6 8 9 10])
+
+;summary
+"Clojure favors simplicity in the facce of growing software complexity. If problems are easily solved by collection abstractions
+then those abstactions should be used. Most problems can be modeled on such simple types, yet we continue to build monolithic
+class hierarchies ina fruitles race toward mirroring the 'real world' - whatever that means. Perhaps it's tie to realise 
+that we no longer need to layer self-imposed complexitis ont op of software solutions that area already inherently complex.
+Not only does Clojure provide the sequentioal, set, and map thypes useful for pulling ourselves form the doldrumsof softtware
+complexity, but it's also optimized for dealing with them."

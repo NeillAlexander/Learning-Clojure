@@ -52,3 +52,47 @@
 (def times-3 (times-n 3))
 
 (times-3 2)
+
+;; elevator example of trampoline
+(defn elevator [commands]
+  (letfn                    ;; #: Local functions
+      [(ff-open [[cmd & r]]   ;; #: binds cmd to the first param, and r to the rest
+         "When the elevator is open on the 1st floor
+          it can either close or be done."
+         #(case cmd
+                :close (ff-closed r)
+                :done  true
+                false))
+       (ff-closed [[cmd & r]] ;; #: 1st floor closed
+         "When the elevator is closed on the 1st floor
+          it can either open or go up." 
+         #(case cmd
+                :open (ff-open r)
+                :up   (sf-closed r)
+                false))
+       (sf-closed [[cmd & r]] ;; #: 2nd floor closed
+         "When the elevator is closed on the 2nd floor 
+          it can either go down or open."
+         #(case cmd
+                :down (ff-closed r)
+                :open (sf-open r)
+                false))
+       (sf-open [[cmd & r]] ;; #: 2nd floor open
+         "When the elevator is open on the 2nd floor
+          it can either close or be done"
+         #(case cmd
+                :close (sf-closed r)
+                :done  true
+                false))]
+    (trampoline ff-open commands)))
+
+(defn destr-test [[cmd & r]]
+  (println cmd)
+  (println r))
+
+;; rules for mutual recursion
+;; 1. Make all of the functions participating in the mutual recursion return a function instead of their normal result
+;; 2. Invoke the first function in the mutual chain via the trampoline function
+
+;; the trampoline function takes care of the stack while the mutual recursion carries on
+;; typical use case is a state machine, of which the elevator function above is an example

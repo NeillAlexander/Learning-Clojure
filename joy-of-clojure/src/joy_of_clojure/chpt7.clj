@@ -1,4 +1,4 @@
-(ns chpt7)
+(ns joy_of_clojure.chpt7)
 
 ;vector as function
 (map [:cthon :phthor :beowulf :grendel] #{0 3})

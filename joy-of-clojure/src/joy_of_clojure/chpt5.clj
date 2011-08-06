@@ -1,4 +1,4 @@
-(ns chpt5)
+(ns joy_of_clojure.chpt5)
 
 ;persistent data structures
 

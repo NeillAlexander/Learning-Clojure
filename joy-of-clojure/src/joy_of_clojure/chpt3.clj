@@ -1,4 +1,4 @@
-(ns chpt3)
+(ns joy_of_clojure.chpt3)
 
 ;truthiness
 ;everything looks true to if except false and nil

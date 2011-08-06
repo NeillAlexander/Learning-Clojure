@@ -1,4 +1,4 @@
-(ns chpt6)
+(ns joy_of_clojure.chpt6)
 
 ;shared structure
 (def baselist (list :barnabas :adam))

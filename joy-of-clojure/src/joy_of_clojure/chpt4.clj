@@ -1,4 +1,4 @@
-(ns chpt4)
+(ns joy_of_clojure.chpt4)
 
 
 (defn print-val-and-class [val]

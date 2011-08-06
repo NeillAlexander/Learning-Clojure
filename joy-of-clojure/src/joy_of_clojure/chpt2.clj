@@ -1,6 +1,7 @@
-(ns chpt2
+(ns joy_of_clojure.chpt2
   (:require [clojure.set :as s])
   (:import [java.util.concurrent.atomic AtomicLong]))
+
 
 ; ALT-SHIFT-UP to select the enclosing form
 ; CTRL-ENTER to send to the REPL
